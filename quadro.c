@@ -1,11 +1,11 @@
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
+#include <bits/getopt_core.h>
 #include <getopt.h>
 #include <libpng16/png.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <time.h>
 
 int main(int argc, char *argv[]) {
     png_structp png_ptr;
@@ -22,11 +22,17 @@ int main(int argc, char *argv[]) {
     int attrx = 0;
     int attry = 0;
 
+    char *filename = malloc(128);
+    strcpy(filename, "screenshot.png");
+
     int opt;
-    while ((opt = getopt(argc, argv, "g")) != -1) {
+    while ((opt = getopt(argc, argv, "f:g:")) != -1) {
         switch (opt) {
+        case 'f':
+            strcpy(filename, optarg);
+            break;
         case 'g':
-            XParseGeometry(argv[2], &attrx, &attry, &width, &height);
+            XParseGeometry(optarg, &attrx, &attry, &width, &height);
             break;
         }
     }
@@ -36,12 +42,6 @@ int main(int argc, char *argv[]) {
     unsigned long red_mask = image->red_mask;
     unsigned long green_mask = image->green_mask;
     unsigned long blue_mask = image->blue_mask;
-
-    // Get the system time
-    char filename[256];
-    time_t now = time(NULL);
-    strftime(filename, 256, "screenshot-%Y-%m-%d_%H-%M-%S.png",
-             localtime(&now));
 
     // Open file
     FILE *fp;
@@ -105,6 +105,7 @@ int main(int argc, char *argv[]) {
     png_write_end(png_ptr, NULL);
 
     // Free
+    free(filename);
     fclose(fp);
     if (png_info_ptr != NULL)
         png_free_data(png_ptr, png_info_ptr, PNG_FREE_ALL, -1);
