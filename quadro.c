@@ -27,7 +27,6 @@ int main(int argc, char *argv[]) {
         switch (opt) {
         case 'g':
             XParseGeometry(argv[2], &attrx, &attry, &width, &height);
-            printf("%d %d %d %d\n", width, height, attrx, attry);
             break;
         }
     }
