@@ -72,13 +72,11 @@ int main(int argc, char *argv[]) {
 
     // Set title
     char *title = "Screenshot";
-    if (title != NULL) {
-        png_text title_text;
-        title_text.compression = PNG_TEXT_COMPRESSION_NONE;
-        title_text.key = "Title";
-        title_text.text = title;
-        png_set_text(png_ptr, png_info_ptr, &title_text, 1);
-    }
+    png_text title_text;
+    title_text.compression = PNG_TEXT_COMPRESSION_NONE;
+    title_text.key = "Title";
+    title_text.text = title;
+    png_set_text(png_ptr, png_info_ptr, &title_text, 1);
 
     png_write_info(png_ptr, png_info_ptr);
 
