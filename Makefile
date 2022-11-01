@@ -9,7 +9,7 @@ install:
 	mv quadro /usr/local/bin
 
 uninstall:
-	rm /usr/local/bin/bin
+	rm /usr/local/bin/quadro
 
 clean:
 	rm quadro
