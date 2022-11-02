@@ -1,6 +1,5 @@
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
-#include <bits/getopt_core.h>
 #include <getopt.h>
 #include <libpng16/png.h>
 #include <stdio.h>
@@ -71,11 +70,10 @@ int main(int argc, char *argv[]) {
                  PNG_FILTER_TYPE_BASE);
 
     // Set title
-    char *title = "Screenshot";
     png_text title_text;
     title_text.compression = PNG_TEXT_COMPRESSION_NONE;
     title_text.key = "Title";
-    title_text.text = title;
+    title_text.text = "Screenshot";
     png_set_text(png_ptr, png_info_ptr, &title_text, 1);
 
     png_write_info(png_ptr, png_info_ptr);
@@ -112,5 +110,6 @@ int main(int argc, char *argv[]) {
     if (png_row != NULL)
         free(png_row);
 
+    XDestroyImage(image);
     XCloseDisplay(display);
 }
