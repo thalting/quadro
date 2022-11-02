@@ -103,8 +103,10 @@ int main(int argc, char *argv[]) {
     // Free
     free(filename);
     fclose(fp);
-    if (png_info_ptr != NULL)
+    if (png_info_ptr != NULL) {
+        png_destroy_info_struct(png_ptr, &png_info_ptr);
         png_free_data(png_ptr, png_info_ptr, PNG_FREE_ALL, -1);
+    }
     if (png_ptr != NULL)
         png_destroy_write_struct(&png_ptr, (png_infopp)NULL);
     if (png_row != NULL)
