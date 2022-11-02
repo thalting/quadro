@@ -6,7 +6,8 @@ quadro:
 	cc ${CFLAGS} quadro.c -o quadro
 
 install:
-	mv quadro /usr/local/bin
+	cp quadro /usr/local/bin
+	cp quadro.1 /usr/local/man/man1
 
 uninstall:
 	rm /usr/local/bin/quadro
