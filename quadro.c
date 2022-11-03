@@ -21,15 +21,22 @@ int main(int argc, char *argv[]) {
     int attrx = 0;
     int attry = 0;
 
-    char *filename = malloc(128);
-    strcpy(filename, "screenshot.png");
+    const char default_filename[] = "screenshot.png";
+    char *filename = malloc(sizeof default_filename);
+    strcpy(filename, default_filename);
 
     int opt;
     while ((opt = getopt(argc, argv, "f:g:")) != -1) {
         switch (opt) {
-        case 'f':
+        case 'f': {
+            if (strlen(optarg) > strlen(filename)) {
+                free(filename);
+                filename = malloc(strlen(optarg));
+            }
+
             strcpy(filename, optarg);
             break;
+        }
         case 'g':
             XParseGeometry(optarg, &attrx, &attry, &width, &height);
             break;
