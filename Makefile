@@ -1,16 +1,19 @@
 all: quadro
 
-CFLAGS = -std=c99 -pedantic -Wall -Os -lX11 -lpng16
+CFLAGS  = -std=c99 -pedantic -Wall -Wextra -Werror -O2
+LDFLAGS = -lX11 -lpng16
 
-quadro:
-	cc ${CFLAGS} quadro.c -o quadro
+PREFIX  = ${HOME}/.local
 
 install:
-	cp quadro /usr/local/bin
-	cp quadro.1 /usr/local/man/man1
+	mkdir -p ${PREFIX}/bin
+	mkdir -p ${PREFIX}/man/man1
+	cp quadro ${PREFIX}/bin
+	cp quadro.1 ${PREFIX}/man/man1
 
 uninstall:
-	rm /usr/local/bin/quadro
+	rm ${PREFIX}/bin/quadro
+	rm ${PREFIX}/man/man1/quadro.1
 
 clean:
-	rm quadro
+	rm -f quadro
