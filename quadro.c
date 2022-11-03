@@ -82,7 +82,7 @@ int main(int argc, char *argv[]) {
     png_row = (png_bytep)malloc(3 * width * sizeof(png_byte));
 
     // Write image data
-    int x, y;
+    unsigned int x, y;
     for (y = 0; y < height; y++) {
         for (x = 0; x < width; x++) {
             unsigned long pixel = XGetPixel(image, x, y);
