@@ -1,5 +1,6 @@
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
+#include <alloca.h>
 #include <getopt.h>
 #include <libpng16/png.h>
 #include <stdio.h>
@@ -22,18 +23,15 @@ int main(int argc, char *argv[]) {
     int attry = 0;
 
     const char default_filename[] = "screenshot.png";
-    char *filename = malloc(sizeof default_filename);
+    char *filename = alloca(sizeof default_filename);
     strcpy(filename, default_filename);
 
     int opt;
     while ((opt = getopt(argc, argv, "f:g:")) != -1) {
         switch (opt) {
         case 'f': {
-            if (strlen(optarg) > strlen(filename)) {
-                free(filename);
-                filename = malloc(strlen(optarg));
-            }
-
+            if (strlen(optarg) > strlen(filename))
+                filename = alloca(strlen(optarg));
             strcpy(filename, optarg);
             break;
         }
@@ -86,7 +84,7 @@ int main(int argc, char *argv[]) {
     png_write_info(png_ptr, png_info_ptr);
 
     // Allocate memory for one row (3 bytes per pixel - RGB)
-    png_row = (png_bytep)malloc(3 * width * sizeof(png_byte));
+    png_row = (png_bytep)alloca(3 * width * sizeof(png_byte));
 
     // Write image data
     unsigned int x, y;
@@ -108,14 +106,11 @@ int main(int argc, char *argv[]) {
     png_write_end(png_ptr, NULL);
 
     // Free
-    free(filename);
     fclose(fp);
     if (png_info_ptr != NULL)
         png_destroy_info_struct(png_ptr, &png_info_ptr);
     if (png_ptr != NULL)
         png_destroy_write_struct(&png_ptr, (png_infopp)NULL);
-    if (png_row != NULL)
-        free(png_row);
 
     XDestroyImage(image);
     XCloseDisplay(display);
