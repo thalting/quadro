@@ -22,17 +22,15 @@ int main(int argc, char *argv[]) {
     int attrx = 0;
     int attry = 0;
 
-    const char default_filename[] = "screenshot.png";
-    char *filename = alloca(sizeof default_filename);
-    strcpy(filename, default_filename);
+    char *filename = "screenshot.png";
 
     int opt;
     while ((opt = getopt(argc, argv, "f:g:")) != -1) {
         switch (opt) {
         case 'f': {
-            if (strlen(optarg) > strlen(filename))
-                filename = alloca(strlen(optarg));
-            strcpy(filename, optarg);
+            // optarg points to argv stack space that lives
+            // throughout the entire program
+            filename = optarg;
             break;
         }
         case 'g':
